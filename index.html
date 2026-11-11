@@ -6,14 +6,10 @@
   <meta name="description" content="TaskFlow — a premium personal task and productivity workspace.">
   <meta name="theme-color" content="#f7f8fa">
   <title>TaskFlow</title>
-  <link rel="icon" href="assets/icons/logo.svg" type="image/svg+xml">
-
+  <link rel="icon" href="/logo.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
-  <link rel="stylesheet" href="css/style.css">
-
   <!-- Apply saved theme before first paint to avoid a flash of the wrong theme -->
   <script>
     (function () {
@@ -30,131 +26,12 @@
   </script>
 </head>
 <body>
-  <a class="skip-link" href="#view">Skip to content</a>
-
-  <!-- Loading splash -->
-  <div class="app-loader" id="app-loader" aria-hidden="true">
-    <div class="loader-logo"><img src="assets/icons/logo.svg" alt="" width="44" height="44"></div>
-    <div class="loader-bar"><span></span></div>
-  </div>
-
-  <div class="app" id="app">
-    <!-- ============================ Sidebar ============================ -->
-    <aside class="sidebar" id="sidebar" aria-label="Sidebar">
-      <div class="sidebar-top">
-        <a class="brand" href="#/dashboard" aria-label="TaskFlow home">
-          <img src="assets/icons/logo.svg" alt="" width="30" height="30">
-          <span class="brand-name">TaskFlow</span>
-        </a>
-        <button type="button" class="icon-btn collapse-btn desktop-only" data-action="toggle-sidebar" aria-label="Collapse sidebar" data-tip="Collapse sidebar">
-          <i class="fa-solid fa-angles-left"></i>
-        </button>
-        <button type="button" class="icon-btn mobile-only" data-action="close-sidebar" aria-label="Close menu">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-
-      <button type="button" class="btn btn-primary quick-add-btn" data-action="quick-add" data-nav-tip="Quick add (N)">
-        <i class="fa-solid fa-plus"></i><span class="nav-label">Quick Add Task</span><kbd class="nav-label">N</kbd>
-      </button>
-
-      <nav class="nav" aria-label="Main navigation">
-        <div class="nav-section">
-          <a class="nav-item" href="#/dashboard" data-route="dashboard" data-nav-tip="Dashboard"><i class="fa-solid fa-house"></i><span class="nav-label">Dashboard</span></a>
-          <a class="nav-item" href="#/tasks" data-route="tasks" data-nav-tip="My Tasks"><i class="fa-solid fa-list-check"></i><span class="nav-label">My Tasks</span><span class="nav-badge" data-count="tasks" hidden></span></a>
-          <a class="nav-item" href="#/inbox" data-route="inbox" data-nav-tip="Inbox"><i class="fa-solid fa-inbox"></i><span class="nav-label">Inbox</span><span class="nav-badge" data-count="inbox" hidden></span></a>
-          <a class="nav-item" href="#/today" data-route="today" data-nav-tip="Today"><i class="fa-solid fa-calendar-day"></i><span class="nav-label">Today</span><span class="nav-badge" data-count="today" hidden></span></a>
-          <a class="nav-item" href="#/upcoming" data-route="upcoming" data-nav-tip="Upcoming"><i class="fa-solid fa-calendar-week"></i><span class="nav-label">Upcoming</span><span class="nav-badge" data-count="upcoming" hidden></span></a>
-          <a class="nav-item" href="#/calendar" data-route="calendar" data-nav-tip="Calendar"><i class="fa-regular fa-calendar"></i><span class="nav-label">Calendar</span></a>
-          <a class="nav-item" href="#/important" data-route="important" data-nav-tip="Important"><i class="fa-solid fa-star"></i><span class="nav-label">Important</span><span class="nav-badge" data-count="important" hidden></span></a>
-          <a class="nav-item" href="#/analytics" data-route="analytics" data-nav-tip="Analytics"><i class="fa-solid fa-chart-line"></i><span class="nav-label">Analytics</span></a>
-        </div>
-
-        <div class="nav-section">
-          <p class="nav-heading"><span class="nav-label">Library</span></p>
-          <a class="nav-item" href="#/completed" data-route="completed" data-nav-tip="Completed"><i class="fa-solid fa-circle-check"></i><span class="nav-label">Completed</span><span class="nav-badge muted-badge" data-count="completed" hidden></span></a>
-          <a class="nav-item" href="#/archived" data-route="archived" data-nav-tip="Archived"><i class="fa-solid fa-box-archive"></i><span class="nav-label">Archived</span><span class="nav-badge muted-badge" data-count="archived" hidden></span></a>
-          <a class="nav-item" href="#/trash" data-route="trash" data-nav-tip="Trash"><i class="fa-regular fa-trash-can"></i><span class="nav-label">Trash</span><span class="nav-badge muted-badge" data-count="trash" hidden></span></a>
-        </div>
-
-        <div class="nav-section">
-          <div class="nav-heading">
-            <a class="nav-label nav-heading-link" href="#/organize">Projects</a>
-            <button type="button" class="icon-btn icon-btn-xs nav-label" data-action="new-project" aria-label="New project" data-tip="New project"><i class="fa-solid fa-plus"></i></button>
-          </div>
-          <div id="nav-projects" class="nav-group"></div>
-          <div class="nav-heading">
-            <a class="nav-label nav-heading-link" href="#/organize">Categories</a>
-            <button type="button" class="icon-btn icon-btn-xs nav-label" data-action="new-category" aria-label="New category" data-tip="New category"><i class="fa-solid fa-plus"></i></button>
-          </div>
-          <div id="nav-categories" class="nav-group"></div>
-          <a class="nav-item" href="#/organize" data-route="organize" data-nav-tip="Categories & Projects"><i class="fa-solid fa-shapes"></i><span class="nav-label">Manage all</span></a>
-        </div>
-      </nav>
-
-      <div class="sidebar-footer">
-        <a class="nav-item" href="#/settings" data-route="settings" data-nav-tip="Settings"><i class="fa-solid fa-gear"></i><span class="nav-label">Settings</span></a>
-        <a class="profile" href="#/settings" aria-label="Profile settings">
-          <span class="avatar" id="profile-avatar">G</span>
-          <span class="profile-text nav-label"><strong id="profile-name">Guest</strong><small id="profile-meta"></small></span>
-        </a>
-      </div>
-    </aside>
-    <div class="sidebar-backdrop" data-action="close-sidebar" aria-hidden="true"></div>
-
-    <!-- ============================ Main ============================ -->
-    <div class="main">
-      <header class="topbar">
-        <button type="button" class="icon-btn mobile-only" data-action="open-sidebar" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
-        <div class="topbar-title">
-          <h1 id="page-title">Dashboard</h1>
-          <p id="page-subtitle"></p>
-        </div>
-        <div class="search-box">
-          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-          <input id="global-search" type="search" placeholder="Search tasks, tags, categories…" aria-label="Search tasks" autocomplete="off">
-          <kbd>/</kbd>
-        </div>
-        <div class="topbar-actions">
-          <button type="button" class="icon-btn" data-action="command-palette" aria-label="Quick actions" data-tip="Quick actions (Ctrl+K)"><i class="fa-solid fa-bolt"></i></button>
-          <button type="button" class="icon-btn" data-action="show-shortcuts" aria-label="Keyboard shortcuts" data-tip="Shortcuts (Ctrl+/)"><i class="fa-regular fa-keyboard"></i></button>
-          <button type="button" class="icon-btn" data-action="toggle-theme" aria-label="Toggle theme" data-tip="Toggle theme"><i class="fa-solid fa-moon" id="theme-icon"></i></button>
-          <div class="activity-wrap">
-            <button type="button" class="icon-btn" data-action="toggle-activity" aria-label="Notifications and activity" aria-expanded="false" aria-controls="activity-panel" data-tip="Notifications">
-              <i class="fa-regular fa-bell"></i><span class="notif-dot" id="activity-dot" hidden></span>
-            </button>
-            <div class="popover activity-panel" id="activity-panel" hidden>
-              <header class="popover-head">
-                <h3>Notifications &amp; activity</h3>
-                <button type="button" class="btn btn-link btn-sm" id="activity-clear" data-action="clear-activity">Clear</button>
-              </header>
-              <div class="popover-body" id="activity-panel-body"></div>
-            </div>
-          </div>
-          <button type="button" class="btn btn-primary new-task-btn" data-action="new-task"><i class="fa-solid fa-plus"></i><span>New Task</span></button>
-        </div>
-      </header>
-
-      <main class="view" id="view" tabindex="-1"></main>
+  <div id="root">
+    <div class="app-loader" aria-hidden="true">
+      <div class="loader-logo"><img src="/logo.svg" alt="" width="44" height="44"></div>
+      <div class="loader-bar"><span></span></div>
     </div>
   </div>
-
-  <!-- Floating action button (mobile) -->
-  <button type="button" class="fab" data-action="quick-add" aria-label="Quick add task"><i class="fa-solid fa-plus"></i></button>
-
-  <div id="modal-root"></div>
-  <div id="toast-root" class="toast-root" aria-live="polite"></div>
-  <input type="file" id="import-file" accept="application/json,.json" hidden>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/tasks.js"></script>
-  <script src="js/categories.js"></script>
-  <script src="js/projects.js"></script>
-  <script src="js/calendar.js"></script>
-  <script src="js/analytics.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/app.js"></script>
+  <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>

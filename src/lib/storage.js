@@ -3,9 +3,9 @@
    Single source of truth (DB.state) + safe LocalStorage persistence,
    schema normalisation, unique ids, activity log, import / export.
    ========================================================================= */
-'use strict';
+import { Bus, Utils, ValidationError } from './utils.js';
 
-const DB = (() => {
+export const DB = (() => {
   const PREFIX = 'taskflow:';
   const SCHEMA_VERSION = 1;
   const KEYS = ['tasks', 'categories', 'projects', 'settings', 'activity'];
@@ -48,6 +48,7 @@ const DB = (() => {
   const state = { tasks: [], categories: [], projects: [], settings: { ...DEFAULT_SETTINGS }, activity: [] };
   const usedIds = new Set();
   const issues = [];   // human readable notes about recovered / invalid data
+  Utils.setSettingsSource(() => state.settings);
 
   /* ------------------------------------------------------------------ */
   /* Low level LocalStorage access                                       */

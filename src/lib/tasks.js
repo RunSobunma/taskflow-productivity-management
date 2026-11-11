@@ -3,9 +3,12 @@
    Task domain logic: CRUD, lifecycle, subtasks, timers, recurrence,
    querying (scopes + filters + sorting) and CSV export.
    ========================================================================= */
-'use strict';
+import { DB } from './storage.js';
+import { Bus, Utils, ValidationError } from './utils.js';
+import { Categories } from './categories.js';
+import { Projects } from './projects.js';
 
-const Tasks = (() => {
+export const Tasks = (() => {
   const PRIORITY = {
     low: { label: 'Low', rank: 1, icon: 'fa-arrow-down' },
     medium: { label: 'Medium', rank: 2, icon: 'fa-minus' },
