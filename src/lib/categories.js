@@ -2,9 +2,9 @@
    TaskFlow — categories.js
    Categories: CRUD (via the shared collection factory), palette & icon set.
    ========================================================================= */
-'use strict';
+import { DB } from './storage.js';
 
-const Categories = (() => {
+export const Categories = (() => {
   const COLORS = ['#6366f1', '#8b5cf6', '#ec4899', '#f43f5e', '#f97316', '#f59e0b', '#84cc16', '#10b981', '#14b8a6', '#06b6d4', '#3b82f6', '#64748b'];
   const ICONS = [
     'fa-briefcase', 'fa-user', 'fa-graduation-cap', 'fa-cart-shopping', 'fa-heart-pulse', 'fa-wallet',

@@ -1,11 +1,10 @@
 /* =========================================================================
    TaskFlow — utils.js
-   Shared, dependency-free helpers: ids, escaping, dates, formatting, events.
+   Shared, dependency-free helpers: ids, dates, formatting, events.
    ========================================================================= */
-'use strict';
 
 /** Error carrying per-field validation messages: { field: message } */
-class ValidationError extends Error {
+export class ValidationError extends Error {
   constructor(errors) {
     super(Object.values(errors)[0] || 'Invalid input');
     this.name = 'ValidationError';
@@ -14,24 +13,29 @@ class ValidationError extends Error {
 }
 
 /** Tiny publish/subscribe event bus used to keep every view in sync. */
-const Bus = (() => {
+export const Bus = (() => {
   const listeners = {};
   return {
-    on(event, fn) { (listeners[event] = listeners[event] || []).push(fn); },
+    /** Subscribe; returns an unsubscribe function. */
+    on(event, fn) {
+      (listeners[event] = listeners[event] || []).push(fn);
+      return () => { listeners[event] = listeners[event].filter(f => f !== fn); };
+    },
     emit(event, payload) { (listeners[event] || []).forEach(fn => { try { fn(payload); } catch (e) { console.error(e); } }); },
   };
 })();
 
-const Utils = (() => {
+export const Utils = (() => {
   const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const MONTHS_SHORT = MONTHS.map(m => m.slice(0, 3));
   const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const DAYS_SHORT = DAYS.map(d => d.slice(0, 3));
   const pad = n => String(n).padStart(2, '0');
 
-  /** Settings are read lazily so formatting always reflects the latest preferences. */
-  // `DB` is a top-level const (not a window property), so check it via typeof.
-  const settings = () => (typeof DB !== 'undefined' && DB.state && DB.state.settings) || {};
+  /** Settings are read lazily (storage.js registers the source) so formatting reflects the latest preferences. */
+  let settingsSource = () => ({});
+  const settings = () => settingsSource() || {};
+  const setSettingsSource = fn => { settingsSource = fn; };
 
   function uid(prefix = 'id') {
     const rand = window.crypto && crypto.randomUUID
@@ -178,12 +182,9 @@ const Utils = (() => {
   const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 
   return {
-    MONTHS, MONTHS_SHORT, DAYS, DAYS_SHORT, uid, escapeHTML, toISODate, todayISO, parseDate,
+    setSettingsSource, MONTHS, MONTHS_SHORT, DAYS, DAYS_SHORT, uid, escapeHTML, toISODate, todayISO, parseDate,
     addDays, addMonths, startOfDay, startOfWeek, startOfMonth, diffDays, isValidTime, weekdayOrder,
     formatDate, friendlyDate, formatTime, formatDateTime, relativeTime, formatMinutes, formatBytes,
     debounce, download, readFile, initials, plural,
   };
 })();
-
-/** Short alias used in templates. */
-const esc = Utils.escapeHTML;

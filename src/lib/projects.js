@@ -2,9 +2,10 @@
    TaskFlow — projects.js
    Projects: CRUD (via the shared collection factory) and progress tracking.
    ========================================================================= */
-'use strict';
+import { DB } from './storage.js';
+import { Tasks } from './tasks.js';
 
-const Projects = (() => {
+export const Projects = (() => {
   const collection = DB.createCollection({
     key: 'projects', label: 'Project', taskField: 'projectId', normalize: DB.normalizeProject,
   });
